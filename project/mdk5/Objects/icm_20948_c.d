@@ -1,0 +1,11 @@
+.\objects\icm_20948_c.o: ..\..\app\util\ICM_20948_C.c
+.\objects\icm_20948_c.o: ..\..\app\util\ICM_20948_C.h
+.\objects\icm_20948_c.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\icm_20948_c.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\icm_20948_c.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\icm_20948_c.o: ..\..\app\util\ICM_20948_REGISTERS.h
+.\objects\icm_20948_c.o: ..\..\app\util\ICM_20948_ENUMERATIONS.h
+.\objects\icm_20948_c.o: ..\..\app\util\AK09916_ENUMERATIONS.h
+.\objects\icm_20948_c.o: ..\..\app\util\ICM_20948_DMP.h
+.\objects\icm_20948_c.o: ..\..\app\util\AK09916_REGISTERS.h
+.\objects\icm_20948_c.o: ..\..\app\util\icm20948_img.dmp3a.h
