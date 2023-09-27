@@ -1,20 +1,20 @@
 /****************************************Copyright (c)************************************************
-**                                      [°¬¿ËÄ·¿Æ¼¼]
+**                                      [è‰¾å…‹å§†ç§‘æŠ€]
 **                                        IIKMSIK 
-**                            ¹Ù·½µêÆÌ£ºhttps://acmemcu.taobao.com
-**                            ¹Ù·½ÂÛÌ³£ºhttp://www.e930bbs.com
+**                            å®˜æ–¹åº—é“ºï¼šhttps://acmemcu.taobao.com
+**                            å®˜æ–¹è®ºå›ï¼šhttp://www.e930bbs.com
 **                                   
 **--------------File Info-----------------------------------------------------------------------------
 ** File name         : main.c
 ** Last modified Date: 2021-8-7         
 ** Last Version      :		   
-** Descriptions      : Ê¹ÓÃµÄSDK°æ±¾-SDK_17.0.2
+** Descriptions      : ä½¿ç”¨çš„SDKç‰ˆæœ¬-SDK_17.0.2
 **						
 **----------------------------------------------------------------------------------------------------
-** Created by        : [°¬¿ËÄ·]Macro Peng
+** Created by        : [è‰¾å…‹å§†]Macro Peng
 ** Created date      : 2021-8-7  
 ** Version           : 1.0
-** Descriptions      : 2.4GË½ÓĞĞ­Òé(ESB)Ö÷·¢ËÍ¶Ë-ÎŞÏßµãµÆPTX£¬PTX-NRF_ESB_EVENT_RX_RECEIVEDÊÂ¼şÏÂ´òÓ¡ACKÔØºÉ
+** Descriptions      : 2.4Gç§æœ‰åè®®(ESB)ä¸»å‘é€ç«¯-æ— çº¿ç‚¹ç¯PTXï¼ŒPTX-NRF_ESB_EVENT_RX_RECEIVEDäº‹ä»¶ä¸‹æ‰“å°ACKè½½è·
 **---------------------------------------------------------------------------------------------------*/
 #include <stdbool.h>   
 #include <stdint.h>
@@ -22,7 +22,7 @@
 
 #include "nrf_delay.h"
 #include "boards.h"
-//LogĞèÒªÒıÓÃµÄÍ·ÎÄ¼ş
+//Logéœ€è¦å¼•ç”¨çš„å¤´æ–‡ä»¶
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
@@ -54,34 +54,34 @@ static float  packet[3];                    /**< Packet to transmit. */
 void send_packet()
 {
     // send the packet:
-    NRF_RADIO->EVENTS_READY = 0U;	//ÊÂ¼ş×¼±¸ºÃ
-    NRF_RADIO->TASKS_TXEN   = 1;	//·¢ËÍÊ¹ÄÜ
+    NRF_RADIO->EVENTS_READY = 0U;	//äº‹ä»¶å‡†å¤‡å¥½
+    NRF_RADIO->TASKS_TXEN   = 1;	//å‘é€ä½¿èƒ½
 
-    while (NRF_RADIO->EVENTS_READY == 0U)	//µÈ´ıREADYÊÂ¼ş
+    while (NRF_RADIO->EVENTS_READY == 0U)	//ç­‰å¾…READYäº‹ä»¶
     {
         // wait
     }
 
 	
-    NRF_RADIO->EVENTS_END  = 0U;	//ÊÂ¼ş½áÊøÇåÁã
-    NRF_RADIO->TASKS_START = 1U;	//ÈÎÎñ¿ªÊ¼¸³Öµ
+    NRF_RADIO->EVENTS_END  = 0U;	//äº‹ä»¶ç»“æŸæ¸…é›¶
+    NRF_RADIO->TASKS_START = 1U;	//ä»»åŠ¡å¼€å§‹èµ‹å€¼
 
-    while (NRF_RADIO->EVENTS_END == 0U)		//µÈ´ı·¢ËÍ½áÊø
+    while (NRF_RADIO->EVENTS_END == 0U)		//ç­‰å¾…å‘é€ç»“æŸ
     {
         // wait
     }
 
-	#if 0	//Ö¸Ê¾µÆºÍ´òÓ¡£¬¿ÉÒÔ²»Òª
+	#if 0	//æŒ‡ç¤ºç¯å’Œæ‰“å°ï¼Œå¯ä»¥ä¸è¦
     uint32_t err_code = bsp_indication_set(BSP_INDICATE_SENT_OK);
     NRF_LOG_INFO("The packet was sent");
     APP_ERROR_CHECK(err_code);
 	#endif
 
-    NRF_RADIO->EVENTS_DISABLED = 0U;	//ÊÂ¼ş½ûÖ¹ÇåÁã
+    NRF_RADIO->EVENTS_DISABLED = 0U;	//äº‹ä»¶ç¦æ­¢æ¸…é›¶
     // Disable radio
-    NRF_RADIO->TASKS_DISABLE = 1U;		//½ûÖ¹
+    NRF_RADIO->TASKS_DISABLE = 1U;		//ç¦æ­¢
 
-    while (NRF_RADIO->EVENTS_DISABLED == 0U)	//µÈ´ıÍ£Ö¹
+    while (NRF_RADIO->EVENTS_DISABLED == 0U)	//ç­‰å¾…åœæ­¢
     {
         // wait
     }
@@ -92,19 +92,19 @@ void send_packet()
 void clock_initialization()
 {
     /* Start 16 MHz crystal oscillator */
-	//Æô¶¯16M¾§Õñ
+	//å¯åŠ¨16Mæ™¶æŒ¯
     NRF_CLOCK->EVENTS_HFCLKSTARTED = 0;
     NRF_CLOCK->TASKS_HFCLKSTART    = 1;
 
     /* Wait for the external oscillator to start up */
-	//µÈ´ı¾§ÕñÆô¶¯
+	//ç­‰å¾…æ™¶æŒ¯å¯åŠ¨
     while (NRF_CLOCK->EVENTS_HFCLKSTARTED == 0)
     {
         // Do nothing.
     }
 
     /* Start low frequency crystal oscillator for app_timer(used by bsp)*/
-	//¿ªÆôµÍÆµ¾§Õñ£¬¹À¼ÆÊÇ32768µÄÄÇ¸ö
+	//å¼€å¯ä½é¢‘æ™¶æŒ¯ï¼Œä¼°è®¡æ˜¯32768çš„é‚£ä¸ª
     NRF_CLOCK->LFCLKSRC            = (CLOCK_LFCLKSRC_SRC_Xtal << CLOCK_LFCLKSRC_SRC_Pos);
     NRF_CLOCK->EVENTS_LFCLKSTARTED = 0;
     NRF_CLOCK->TASKS_LFCLKSTART    = 1;
@@ -115,65 +115,65 @@ void clock_initialization()
     }
 }
 
-#define UART_TX_BUF_SIZE 256       //´®¿Ú·¢ËÍ»º´æ´óĞ¡£¨×Ö½ÚÊı£©
-#define UART_RX_BUF_SIZE 256       //´®¿Ú½ÓÊÕ»º´æ´óĞ¡£¨×Ö½ÚÊı£©
+#define UART_TX_BUF_SIZE 256       //ä¸²å£å‘é€ç¼“å­˜å¤§å°ï¼ˆå­—èŠ‚æ•°ï¼‰
+#define UART_RX_BUF_SIZE 256       //ä¸²å£æ¥æ”¶ç¼“å­˜å¤§å°ï¼ˆå­—èŠ‚æ•°ï¼‰
 
 
 
 
-//´®¿ÚÊÂ¼ş»Øµ÷º¯Êı£¬¸Ãº¯ÊıÖĞÅĞ¶ÏÊÂ¼şÀàĞÍ²¢½øĞĞ´¦Àí
+//ä¸²å£äº‹ä»¶å›è°ƒå‡½æ•°ï¼Œè¯¥å‡½æ•°ä¸­åˆ¤æ–­äº‹ä»¶ç±»å‹å¹¶è¿›è¡Œå¤„ç†
 void uart_error_handle(app_uart_evt_t * p_event)
 {
     static uint8_t index = 0;
 	  static uint8_t length = 0;
 	  static uint8_t data_array[NRF_ESB_MAX_PAYLOAD_LENGTH];
-	  //Êı¾İ½ÓÊÕÊÂ¼ş        
+	  //æ•°æ®æ¥æ”¶äº‹ä»¶        
 	  if (p_event->evt_type ==  APP_UART_DATA_READY)
     {
         UNUSED_VARIABLE(app_uart_get(&data_array[index]));
         index++;
-			  //½ÓÊÕµ½½áÊø×Ö·û»òÕß½ÓÊÕµÄÊı¾İ³¤¶È´óÓÚ×î´óÔØºÉ³¤¶È
+			  //æ¥æ”¶åˆ°ç»“æŸå­—ç¬¦æˆ–è€…æ¥æ”¶çš„æ•°æ®é•¿åº¦å¤§äºæœ€å¤§è½½è·é•¿åº¦
 			  if ((data_array[index - 1] == '#') || (index > NRF_ESB_MAX_PAYLOAD_LENGTH))
 				{
 				    if(index > NRF_ESB_MAX_PAYLOAD_LENGTH)length = NRF_ESB_MAX_PAYLOAD_LENGTH;
 					  else length = index-1;
-					  //ESB·¢ËÍÊı¾İ
+					  //ESBå‘é€æ•°æ®
 //				    esb_data_send(data_array,length);
 					
-					  //Êı¾İ³¤¶ÈÇåÁã£¬ÒÔ±ã½ÓÊÕÏÂÒ»°üÊı¾İ
+					  //æ•°æ®é•¿åº¦æ¸…é›¶ï¼Œä»¥ä¾¿æ¥æ”¶ä¸‹ä¸€åŒ…æ•°æ®
 					  index = 0;
-					  //·­×ªÖ¸Ê¾µÆD1×´Ì¬£¬Ö¸Ê¾Êı¾İ·¢ËÍ
+					  //ç¿»è½¬æŒ‡ç¤ºç¯D1çŠ¶æ€ï¼ŒæŒ‡ç¤ºæ•°æ®å‘é€
 					  nrf_gpio_pin_toggle(LED_1);
 				}			
     }
-		//Í¨Ñ¶´íÎóÊÂ¼ş
+		//é€šè®¯é”™è¯¯äº‹ä»¶
     if (p_event->evt_type == APP_UART_COMMUNICATION_ERROR)
     {
         APP_ERROR_HANDLER(p_event->data.error_communication);
     }
-    //FIFO´íÎóÊÂ¼ş
+    //FIFOé”™è¯¯äº‹ä»¶
     else if (p_event->evt_type == APP_UART_FIFO_ERROR)
     {
         APP_ERROR_HANDLER(p_event->data.error_code);
     }
 }
-//´®¿ÚÅäÖÃ
+//ä¸²å£é…ç½®
 void uart_config(void)
 {
 	uint32_t err_code;
 	
-	//¶¨Òå´®¿ÚÍ¨Ñ¶²ÎÊıÅäÖÃ½á¹¹Ìå²¢³õÊ¼»¯
+	//å®šä¹‰ä¸²å£é€šè®¯å‚æ•°é…ç½®ç»“æ„ä½“å¹¶åˆå§‹åŒ–
   const app_uart_comm_params_t comm_params =
   {
-    RX_PIN_NUMBER,//¶¨Òåuart½ÓÊÕÒı½Å
-    TX_PIN_NUMBER,//¶¨Òåuart·¢ËÍÒı½Å
-    RTS_PIN_NUMBER,//¶¨Òåuart RTSÒı½Å£¬Á÷¿Ø¹Ø±ÕºóËäÈ»¶¨ÒåÁËRTSºÍCTSÒı½Å£¬µ«ÊÇÇı¶¯³ÌĞò»áºöÂÔ£¬²»»áÅäÖÃÕâÁ½¸öÒı½Å£¬Á½¸öÒı½ÅÈÔ¿É×÷ÎªIOÊ¹ÓÃ
-    CTS_PIN_NUMBER,//¶¨Òåuart CTSÒı½Å
-    APP_UART_FLOW_CONTROL_DISABLED,//¹Ø±ÕuartÓ²¼şÁ÷¿Ø
-    false,//½ûÖ¹ÆæÅ¼¼ìÑé
-    NRF_UART_BAUDRATE_115200//uart²¨ÌØÂÊÉèÖÃÎª115200bps
+    RX_PIN_NUMBER,//å®šä¹‰uartæ¥æ”¶å¼•è„š
+    TX_PIN_NUMBER,//å®šä¹‰uartå‘é€å¼•è„š
+    RTS_PIN_NUMBER,//å®šä¹‰uart RTSå¼•è„šï¼Œæµæ§å…³é—­åè™½ç„¶å®šä¹‰äº†RTSå’ŒCTSå¼•è„šï¼Œä½†æ˜¯é©±åŠ¨ç¨‹åºä¼šå¿½ç•¥ï¼Œä¸ä¼šé…ç½®è¿™ä¸¤ä¸ªå¼•è„šï¼Œä¸¤ä¸ªå¼•è„šä»å¯ä½œä¸ºIOä½¿ç”¨
+    CTS_PIN_NUMBER,//å®šä¹‰uart CTSå¼•è„š
+    APP_UART_FLOW_CONTROL_DISABLED,//å…³é—­uartç¡¬ä»¶æµæ§
+    false,//ç¦æ­¢å¥‡å¶æ£€éªŒ
+    NRF_UART_BAUDRATE_115200//uartæ³¢ç‰¹ç‡è®¾ç½®ä¸º115200bps
   };
-  //³õÊ¼»¯´®¿Ú£¬×¢²á´®¿ÚÊÂ¼ş»Øµ÷º¯Êı
+  //åˆå§‹åŒ–ä¸²å£ï¼Œæ³¨å†Œä¸²å£äº‹ä»¶å›è°ƒå‡½æ•°
   APP_UART_FIFO_INIT(&comm_params,
                          UART_RX_BUF_SIZE,
                          UART_TX_BUF_SIZE,
@@ -289,7 +289,7 @@ int main()
 			{
 
 
-				if ((data.header & DMP_header_bitmap_Quat9) > 0 ) // We have asked for GRV data so we should receive Quat6
+				if ((data.header & DMP_header_bitmap_Quat6) > 0 ) // We have asked for GRV data so we should receive Quat6
 				{
 		//      // Q0 value is computed from this equation: Q0^2 + Q1^2 + Q2^2 + Q3^2 = 1.
 		//      // In case of drift, the sum will not add to 1, therefore, quaternion data need to be corrected with right bias values.
